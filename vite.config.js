@@ -14,10 +14,6 @@ export default defineConfig({
 
         foundation: 'services/foundation/index.html',
         icon: 'services/icon/index.html',
-
-        amara: 'Demos/Amara Studio/index.html',
-        lumi: 'Demos/Lumi/index.html',
-        vela: 'Demos/Vela/index.html'
       }
     }
   }
