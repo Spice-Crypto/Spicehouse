@@ -6,7 +6,7 @@ export const site = {
   whatsapp: '[WHATSAPP PLACEHOLDER]',
   instagram: '@spicehouseco',
   location: 'Nigeria • Remote worldwide',
-  description: 'SpiceHouse designs and builds modern websites for businesses that are ready to look as good online as they do in real life.',
+  description: 'SpiceHouse is an independent web studio in Nigeria. We design and build considered, useful websites for businesses ready to move beyond Instagram, WhatsApp and scattered DMs.',
   social: {
     instagram: '@spicehouseco',
     whatsapp: '[WHATSAPP PLACEHOLDER]',
@@ -16,65 +16,46 @@ export const site = {
 
 export const projects = [
   {
-    slug: 'velvet-lane',
-    name: 'Velvet Lane',
+    slug: 'amara-studio',
+    name: 'Amara Studio',
     industry: 'Fashion',
-    category: 'Fashion',
-    year: '2026',
-    short: 'A refined online store for a premium fashion label with a sharper editorial voice.',
-    image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=82',
-    alt: 'Fashion boutique storefront lit warmly with neutral tones and large windows',
-    summary: 'SpiceHouse created a boutique storefront experience that turns product browsing into an editorial story.',
-    roles: ['Brand direction', 'Web design', 'E-commerce UX', 'Development'],
-    outcome: 'The site gave the label a stronger digital presence and a cleaner path from discovery to purchase.'
+    category: 'Brand-led editorial commerce',
+    image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1200&q=85',
+    alt: 'Woman wearing a minimalist cream dress for the Amara Studio concept',
+    summary: 'A fictional fashion brand concept pairing editorial collection storytelling with a direct enquiry path.',
+    roles: ['Art direction', 'Website design', 'Collection browsing', 'WhatsApp enquiries'],
+    outcome: 'This direction gives a considered collection room to lead while keeping product questions close at hand.'
   },
   {
-    slug: 'luma-atelier',
-    name: 'Luma Atelier',
+    slug: 'lumi-beauty-studio',
+    name: 'Lumi Beauty Studio',
     industry: 'Beauty',
-    category: 'Beauty',
-    year: '2025',
-    short: 'A polished beauty brand site balancing product storytelling with easy booking and enquiries.',
-    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=82',
-    alt: 'Beauty studio with skincare products and soft natural lighting',
-    summary: 'The new site gives the studio a calmer, premium experience while making bookings and consultations easier to access.',
-    roles: ['Design system', 'Website build', 'Lead generation', 'Mobile UX'],
-    outcome: 'The brand feels more premium and more useful on mobile, without losing warmth or personality.'
+    category: 'Beauty services + booking',
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Beauty studio portrait for the Lumi Beauty Studio concept',
+    summary: 'A fictional service-business concept for presenting beauty treatments and guiding customers into booking enquiries.',
+    roles: ['Service structure', 'Responsive design', 'Service catalogue', 'Booking enquiries'],
+    outcome: 'The concept keeps services easy to compare and makes the next step clear without assuming a complex booking system.'
   },
   {
-    slug: 'cinder-table',
-    name: 'Cinder Table',
-    industry: 'Food',
-    category: 'Food',
-    year: '2025',
-    short: 'A food brand website designed for menus, events, and a stronger digital presence.',
-    image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=82',
-    alt: 'Restaurant interior with warm lighting, wooden textures, and an inviting dining setup',
-    summary: 'The new experience brings the menu, atmosphere, and service into one clear digital home.',
-    roles: ['Art direction', 'Content structure', 'Reservation flow', 'Development'],
-    outcome: 'The restaurant now has a clean, conversion-focused online presence that feels like the dining experience itself.'
-  },
-  {
-    slug: 'harbor-house',
-    name: 'Harbor House',
+    slug: 'vela',
+    name: 'Vela',
     industry: 'Retail',
-    category: 'Retail',
-    year: '2024',
-    short: 'A retail concept site that makes browsing feel editorial, premium and easy to navigate.',
-    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=82',
-    alt: 'Curated retail display with premium products arranged in a minimal storefront',
-    summary: 'The goal was a cleaner shopping experience with plenty of visual storytelling and direct conversion paths.',
-    roles: ['E-commerce direction', 'Product storytelling', 'UX design', 'Development'],
-    outcome: 'The site improved product discovery and gave the brand a more considered digital identity.',
-    featured: true
+    category: 'Retail catalogue + enquiries',
+    image: 'https://assets.lummi.ai/assets/QmPb1Enf1Gkk3uMVgtXuL5mT9T6BigHhnG3tTub4ZqraJG?auto=format&w=1500',
+    alt: 'Warm editorial fashion portrait for the Vela concept',
+    summary: 'A fictional retail concept built around a browsable product catalogue and direct customer enquiries.',
+    roles: ['Catalogue structure', 'Product storytelling', 'Responsive design', 'Customer enquiries'],
+    outcome: 'This direction helps customers explore products first, then contact the business with questions or purchase intent.'
   }
 ];
 
 export const demos = [
   {
     name: 'Amara Studio',
-    category: 'Fashion concept',
-    description: 'An editorial womenswear storefront concept built around collection discovery and WhatsApp enquiries.',
+    category: 'Brand-led editorial commerce',
+    capability: 'Collection storytelling + WhatsApp enquiries',
+    description: 'A brand-led fashion storefront that pairs editorial storytelling with a clear path from discovering a collection to asking about a piece.',
     href: 'Demos/Amara%20Studio/index.html',
     image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1200&q=85',
     imageAlt: 'Woman wearing a minimalist cream dress for Amara Studio',
@@ -82,8 +63,9 @@ export const demos = [
   },
   {
     name: 'Lumi Beauty Studio',
-    category: 'Beauty concept',
-    description: 'A multi-page beauty studio concept with service browsing, catalogue pages and booking flows.',
+    category: 'Beauty services + booking',
+    capability: 'Service catalogue + booking enquiries',
+    description: 'A service-business website that makes treatments easy to compare and gives customers a straightforward way to enquire about a booking.',
     href: 'Demos/Lumi/index.html',
     image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
     imageAlt: 'Polished beauty finish for Lumi Beauty Studio',
@@ -91,8 +73,9 @@ export const demos = [
   },
   {
     name: 'Vela',
-    category: 'Fashion concept',
-    description: 'A polished fashion boutique concept designed around product browsing and customer enquiries.',
+    category: 'Retail catalogue + enquiries',
+    capability: 'Product browsing + direct enquiries',
+    description: 'A retail catalogue that helps customers browse a considered product range and take the next step with a direct enquiry.',
     href: 'Demos/Vela/index.html',
     image: 'https://assets.lummi.ai/assets/QmPb1Enf1Gkk3uMVgtXuL5mT9T6BigHhnG3tTub4ZqraJG?auto=format&w=1500',
     imageAlt: 'Warm editorial fashion portrait for Vela',
@@ -106,18 +89,14 @@ export const packages = [
     serviceSlug: 'foundation',
     price: 'From ₦125,000',
     intro: 'Give your audience somewhere to go.',
-    detail: 'Custom-built websites for growing brands and businesses ready to move beyond Instagram, Linktree and DMs.',
+    detail: 'A focused, one-page website for businesses ready to move beyond Instagram, Linktree and DMs.',
     includes: [
       '1 page website (with up to 5 sections)',
       'Mobile-first responsive design',
       'Brand-aligned visual design',
       'WhatsApp integration',
       'Contact/enquiry form',
-      'Google Maps where relevant',
       'Basic on-page SEO',
-      'Analytics',
-      'Deployment',
-      '2 revision rounds'
     ],
     note: 'Domain + hosting billed separately',
     cta: 'Get a Quote'
@@ -127,21 +106,15 @@ export const packages = [
     serviceSlug: 'icon',
     price: 'From ₦225,000',
     intro: 'Build a presence worth noticing.',
-    detail: 'For businesses that need more than a basic online presence and stronger customer flow.',
+    detail: 'A multi-page catalogue website for businesses with up to 20 products or services and a clearer path to enquiries.',
     includes: [
       'Everything in FOUNDATION',
       'Up to 5 custom designed pages',
       'Product/service catalogue',
-      'Up to 20 catalogue items',
-      'Individual product/service pages',
+      'Up to 20 catalogue items with individual product/service pages',
       'Category organisation',
-      'Basic catalogue navigation/filtering',
-      'WhatsApp/order/enquiry CTAs',
       'Enhanced SEO setup',
       'Analytics & conversion tracking',
-      'Social integrations',
-      '2 revision rounds',
-      'Deployment',
     ],
     note: 'Domain + hosting billed separately',
     cta: 'Get a Quote',
@@ -174,8 +147,8 @@ const serviceRecords = {
         description: 'A website designed specifically around your business, brand, audience and goals rather than a generic template.'
       },
       {
-        title: 'Up to 5 pages',
-        description: 'A typical site might include pages such as Home, About, Services, Contact and FAQ. The exact pages can be agreed around the business.'
+        title: 'One page, up to 5 sections',
+        description: 'A focused page bringing together the essential business, offer, contact and enquiry information.'
       },
       {
         title: 'Works beautifully on phones',
@@ -286,7 +259,7 @@ const serviceRecords = {
         description: 'Icon includes the core website foundation provided by Foundation, expanded for a larger catalogue-driven experience.'
       },
       {
-        title: '6-12 custom pages',
+        title: 'Up to 5 custom-designed pages',
         description: 'More room for products, services, categories, information and supporting pages.'
       },
       {
@@ -373,7 +346,7 @@ export const pageMeta = {
   },
   services: {
     title: 'Services — SpiceHouse',
-    description: 'Starter, Business and Custom website packages tailored for growing businesses.'
+    description: 'Clear-scope one-page and catalogue website packages, with practical design, build, strategy and launch services.'
   },
   about: {
     title: 'About — SpiceHouse',

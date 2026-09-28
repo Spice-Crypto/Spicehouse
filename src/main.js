@@ -8,25 +8,42 @@ const fillText = () => {
     if (site[key]) element.textContent = site[key];
   });
 
-  document.querySelectorAll('[data-site-link="email"]').forEach((element) => {
-    element.href = `mailto:${site.email}`;
-    if (element.textContent.includes('@') || element.textContent.includes('Email')) {
-      element.textContent = site.email;
+  const whatsappNumber = site.whatsapp.replace(/\D/g, '');
+  const instagramHandle = site.instagram.replace(/^@/, '');
+  const contactChannels = {
+    email: {
+      configured: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.email),
+      href: `mailto:${site.email}`,
+      value: site.email
+    },
+    whatsapp: {
+      configured: whatsappNumber.length >= 8,
+      href: `https://wa.me/${whatsappNumber}`,
+      value: site.whatsapp
+    },
+    instagram: {
+      configured: Boolean(instagramHandle && !instagramHandle.includes('PLACEHOLDER')),
+      href: `https://instagram.com/${instagramHandle}`,
+      value: site.instagram
     }
-  });
+  };
 
-  document.querySelectorAll('[data-site-link="whatsapp"]').forEach((element) => {
-    element.href = `https://wa.me/${site.whatsapp.replace(/\D/g, '')}`;
-    if (element.textContent.includes('WhatsApp') || element.textContent.includes('WA')) {
-      element.textContent = site.whatsapp;
+  document.querySelectorAll('[data-site-link]').forEach((element) => {
+    const channel = contactChannels[element.dataset.siteLink];
+    if (!channel?.configured) {
+      if (element.classList.contains('footer-social-link')) {
+        const lineBreak = element.nextElementSibling;
+        element.remove();
+        if (lineBreak?.tagName === 'BR') lineBreak.remove();
+      } else {
+        element.remove();
+      }
+      return;
     }
-  });
 
-  document.querySelectorAll('[data-site-link="instagram"]').forEach((element) => {
-    element.href = `https://instagram.com/${site.instagram.replace('@', '')}`;
-    if (element.textContent.includes('Instagram')) {
-      element.textContent = site.instagram;
-    }
+    element.href = channel.href;
+    const value = element.querySelector('[data-contact-value]');
+    if (value) value.textContent = channel.value;
   });
 
   const yearNode = document.querySelector('#year');
@@ -39,13 +56,17 @@ const renderDemos = () => {
 
   demoTarget.innerHTML = demos.map((demo, index) => `
     <article class="demo-card reveal" style="--delay: ${index * 120}ms">
+      <a class="demo-card__image ${demo.imageClass}" href="${demo.href}" target="_blank" rel="noreferrer" aria-label="Explore the ${demo.name} concept">
+        <img src="${demo.image}" alt="${demo.imageAlt}" loading="lazy" />
+      </a>
       <div class="demo-card__topline">
         <span class="project-tag">${demo.category}</span>
-        <span class="demo-label">Proof of concept</span>
+        <span class="demo-label">Concept brand</span>
       </div>
       <h3>${demo.name}</h3>
+      <p class="demo-card__capability">${demo.capability}</p>
       <p>${demo.description}</p>
-      <a class="button button-dark" href="${demo.href}" target="_blank" rel="noreferrer">Review demo <span aria-hidden="true">↗</span></a>
+      <a class="button button-dark" href="${demo.href}" target="_blank" rel="noreferrer">Explore ${demo.name} <span aria-hidden="true">↗</span></a>
     </article>
   `).join('');
 };
@@ -79,7 +100,7 @@ const renderProjectDetail = () => {
   if (!detailTarget) return;
 
   const params = new URLSearchParams(window.location.search);
-  const slug = params.get('project') || 'velvet-lane';
+  const slug = params.get('project') || 'amara-studio';
   const project = projects.find((item) => item.slug === slug) || projects[0];
 
   detailTarget.innerHTML = `
@@ -88,7 +109,7 @@ const renderProjectDetail = () => {
         <p class="eyebrow">${project.industry}</p>
         <h1>${project.name}</h1>
         <div class="project-hero__meta">
-          <span>${project.year}</span>
+          <span>Fictional concept</span>
           <span>${project.category}</span>
         </div>
       </div>
@@ -103,7 +124,7 @@ const renderProjectDetail = () => {
     <section class="page-section page-section--tight">
       <div class="container project-story">
         <div>
-          <p class="eyebrow">The brief</p>
+          <p class="eyebrow">Concept direction</p>
           <h2>${project.summary}</h2>
         </div>
         <div>
@@ -117,7 +138,7 @@ const renderProjectDetail = () => {
 
     <section class="page-section page-section--tight">
       <div class="container project-ctas">
-        <a class="button button-dark" href="contact.html">Book a discovery call <span aria-hidden="true">↗</span></a>
+        <a class="button button-dark" href="contact.html#quote-form">Get a quote <span aria-hidden="true">↗</span></a>
         <a class="button button-light" href="work.html">Back to work <span aria-hidden="true">←</span></a>
       </div>
     </section>
@@ -291,20 +312,35 @@ const initMenu = () => {
   const menuButton = document.querySelector('.menu-toggle');
   const navigation = document.querySelector('#site-nav');
   if (!menuButton || !navigation) return;
+  const mobileNavigation = window.matchMedia('(max-width: 760px)');
+
+  const setMenuOpen = (isOpen) => {
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    menuButton.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+    navigation.classList.toggle('is-open', isOpen);
+    navigation.inert = mobileNavigation.matches && !isOpen;
+    document.body.classList.toggle('menu-open', isOpen);
+  };
+
+  setMenuOpen(false);
+  mobileNavigation.addEventListener('change', () => setMenuOpen(false));
 
   menuButton.addEventListener('click', () => {
     const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-    menuButton.setAttribute('aria-expanded', String(!isOpen));
-    navigation.classList.toggle('is-open', !isOpen);
-    document.body.classList.toggle('menu-open', !isOpen);
+    setMenuOpen(!isOpen);
   });
 
   navigation.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
-      menuButton.setAttribute('aria-expanded', 'false');
-      navigation.classList.remove('is-open');
-      document.body.classList.remove('menu-open');
+      setMenuOpen(false);
     });
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+      setMenuOpen(false);
+      menuButton.focus();
+    }
   });
 };
 
@@ -376,9 +412,19 @@ const initForm = () => {
   };
 
   form.querySelectorAll('input, select, textarea').forEach((field) => {
-    field.addEventListener('input', () => clearError(field.name));
+    field.addEventListener('input', () => {
+      clearError(field.name);
+      if (status) {
+        status.classList.remove('is-error');
+        status.textContent = '';
+      }
+    });
     field.addEventListener('change', () => {
       clearError(field.name);
+      if (status) {
+        status.classList.remove('is-error');
+        status.textContent = '';
+      }
       if (field.name === 'package') syncBudgetVisibility();
     });
   });
@@ -388,7 +434,7 @@ const initForm = () => {
     syncBudgetVisibility();
   }
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const rules = [
@@ -427,7 +473,7 @@ const initForm = () => {
 
     if (!valid) {
       if (status) {
-        status.textContent = 'Please complete the required fields before sending your enquiry.';
+        status.textContent = 'Please complete the required fields before preparing your enquiry.';
         status.classList.add('is-error');
       }
       return;
@@ -435,21 +481,32 @@ const initForm = () => {
 
     if (status) {
       status.classList.remove('is-error');
-      status.textContent = 'Sending your enquiry…';
+      status.textContent = 'Sending your enquiry...';
     }
 
-    submitButton.disabled = true;
-    submitButton.textContent = 'Sending…';
+    try {
+      if (submitButton) submitButton.disabled = true;
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form)
+      });
+      const result = await response.json();
 
-    window.setTimeout(() => {
-      form.reset();
-      submitButton.disabled = false;
-      submitButton.textContent = 'Send enquiry';
-      if (status) {
-        status.textContent = 'Thanks — your enquiry has been drafted successfully. We’ll be in touch soon.';
-        status.classList.add('is-success');
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Your enquiry could not be sent. Please try again.');
       }
-    }, 700);
+
+      form.reset();
+      syncBudgetVisibility();
+      if (status) status.textContent = 'Thanks, your enquiry has been sent. We’ll be in touch soon.';
+    } catch (error) {
+      if (status) {
+        status.classList.add('is-error');
+        status.textContent = error.message || 'Your enquiry could not be sent. Please try again.';
+      }
+    } finally {
+      if (submitButton) submitButton.disabled = false;
+    }
   });
 };
 

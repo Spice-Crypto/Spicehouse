@@ -24,7 +24,7 @@ const defaultServices = [
     price: 45000,
     shortDescription: 'Lightweight, neat and designed for comfortable everyday wear.',
     description: 'Lightweight protective styling that looks neat, feels comfortable and is built for easy wear throughout the week.',
-    image: 'https://images.unsplash.com/photo-1521590832167-7e9d8a60f8b9?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
     duration: '3 - 5 hours',
     includes: ['Braiding service', 'Neat finish', 'Styling consultation'],
     prep: 'Come with your hair clean and detangled, and bring reference images if you want a specific finish.',
@@ -126,7 +126,7 @@ const defaultServices = [
     price: 100000,
     shortDescription: 'Long-wear bridal makeup designed around your wedding-day look.',
     description: 'Long-wear bridal makeup designed around your wedding-day look.',
-    image: 'https://images.unsplash.com/photo-1521590832167-7e9d8a60f8b9?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
     duration: '2.5 - 3.5 hours',
     includes: ['Trial consultation', 'Bridal look design', 'Long-wear finishing'],
     prep: 'We recommend a trial and a clear moodboard to plan your wedding-day finish and skin prep.',
@@ -156,10 +156,10 @@ const defaultServices = [
     id: 'hair-soft-glam',
     type: 'package',
     category: 'Packages',
-    name: 'Hair + Soft Glam',
+    name: 'Event Ready: Hair + Soft Glam',
     price: 65000,
-    shortDescription: 'Hair styling combined with Lumi\'s signature soft glam makeup.',
-    description: 'Hair styling combined with Lumi\'s signature soft glam makeup for a complete polished look.',
+    shortDescription: 'A coordinated hair and makeup appointment for birthdays, dinners and event days.',
+    description: 'Combine hair styling and signature soft glam in one coordinated visit, with the finish planned around your event and outfit.',
     image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
     duration: '2.5 - 3 hours',
     includes: ['Hair styling', 'Soft glam makeup', 'Coordinated finish'],
@@ -175,9 +175,9 @@ const defaultServices = [
     category: 'Packages',
     name: 'Bridal Hair + Makeup',
     price: 150000,
-    shortDescription: 'A coordinated beauty experience for your wedding day.',
-    description: 'A coordinated beauty experience for your wedding day.',
-    image: 'https://images.unsplash.com/photo-1521590832167-7e9d8a60f8b9?auto=format&fit=crop&w=1200&q=80',
+    shortDescription: 'A wedding-day pairing with a bridal consultation and a look planned around your timeline.',
+    description: 'Bring hair styling and bridal makeup together with a consultation to align the look, preparation and wedding-day timing.',
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
     duration: '3 - 5 hours',
     includes: ['Bridal hair styling', 'Bridal makeup', 'Wedding-day planning support'],
     prep: 'We recommend a bridal consultation and a detailed discussion about your look, attire and timeline.',
@@ -190,10 +190,10 @@ const defaultServices = [
     id: 'girls-day-package',
     type: 'package',
     category: 'Packages',
-    name: 'Girls\' Day Package',
+    name: 'Girls\' Day / Group Glam',
     price: 120000,
-    shortDescription: 'A group beauty package designed for celebrations and shared appointments.',
-    description: 'A group beauty package designed for celebrations and shared appointments.',
+    shortDescription: 'A shared beauty booking for birthdays and group celebrations, planned around guest count and timing.',
+    description: 'Plan a shared appointment for a celebration, with the guest count, chosen looks and schedule discussed before requesting availability.',
     image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=80',
     duration: 'Flexible time slot',
     includes: ['Shared appointment', 'Beauty styling for a group', 'Personalised finish planning'],
@@ -263,7 +263,7 @@ const defaultProducts = [
     category: 'Hair',
     name: 'Luxe Hair Bonnet',
     price: 8000,
-    image: 'https://images.unsplash.com/photo-1521590832167-7e9d8a60f8b9?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
     shortDescription: 'Silky, comfortable protection for overnight styling.',
     description: 'A satin-lined bonnet that protects your style and helps reduce friction overnight.',
     size: 'One size',
@@ -375,7 +375,9 @@ function getProductById(id) {
 function renderHome() {
   const featureContainers = document.querySelectorAll('[data-feature-services], [data-feature-services-secondary]');
   featureContainers.forEach((featureContainer) => {
-    const items = services.slice(0, 4);
+    const items = featureContainer.hasAttribute('data-feature-services-secondary')
+      ? services.filter((item) => item.type === 'package').slice(0, 4)
+      : [...services.filter((item) => item.category === 'Hair').slice(0, 2), ...services.filter((item) => item.category === 'Makeup').slice(0, 2)];
     featureContainer.innerHTML = items.map((service) => `
       <article class="feature-card">
         <div class="card-image">
@@ -388,10 +390,15 @@ function renderHome() {
           </div>
           <h3>${service.name}</h3>
           <p>${service.shortDescription}</p>
+          <ul class="card-includes">
+            <li><span>Duration</span><strong>${service.duration}</strong></li>
+            ${(service.includes || []).slice(0, 2).map((entry) => `<li><span>Includes</span><strong>${entry}</strong></li>`).join('')}
+          </ul>
           <div class="price-row">
-            <span class="price-tag">${money(service.price)}</span>
-            <a class="card-link" href="catalogue-item.html?type=${service.type}&id=${service.id}">View service</a>
+            <span class="price-tag">From ${money(service.price)}</span>
+            <a class="card-link" href="contact.html?service=${encodeURIComponent(service.id)}">${service.type === 'package' ? 'Enquire about package' : 'Request this service'}</a>
           </div>
+          <a class="card-detail-link" href="catalogue-item.html?type=${service.type}&id=${encodeURIComponent(service.id)}">Service details</a>
         </div>
       </article>
     `).join('');
@@ -414,8 +421,9 @@ function renderHome() {
           <p>${product.shortDescription}</p>
           <div class="price-row">
             <span class="price-tag">${money(product.price)}</span>
-            <a class="card-link" href="catalogue-item.html?type=product&id=${product.id}">View item</a>
+            <a class="card-link" href="${whatsappLink(`Hi Lumi, I\u2019d like to enquire about ${product.name}. Is it available, and can you confirm the current price?`)}" target="_blank" rel="noreferrer">Enquire</a>
           </div>
+          <a class="card-detail-link" href="catalogue-item.html?type=product&id=${encodeURIComponent(product.id)}">Product details</a>
         </div>
       </article>
     `).join('');
@@ -425,7 +433,13 @@ function renderHome() {
 function renderCatalogueCards() {
   const serviceCards = document.querySelector('[data-service-cards]');
   if (serviceCards) {
-    const cards = [...services];
+    const category = serviceCards.dataset.serviceCategory;
+    const type = serviceCards.dataset.serviceType;
+    const cards = services.filter((item) => {
+      if (type) return item.type === type;
+      if (category) return item.category.toLowerCase() === category.toLowerCase() && item.type === 'service';
+      return true;
+    });
     serviceCards.innerHTML = cards.map((item) => `
       <article class="service-card" data-category="${item.category.toLowerCase()}">
         <div class="card-image">
@@ -438,10 +452,15 @@ function renderCatalogueCards() {
           </div>
           <h3>${item.name}</h3>
           <p>${item.shortDescription}</p>
+          <ul class="card-includes">
+            <li><span>Duration</span><strong>${item.duration}</strong></li>
+            ${(item.includes || []).slice(0, 3).map((entry) => `<li><span>Included</span><strong>${entry}</strong></li>`).join('')}
+          </ul>
           <div class="price-row">
-            <span class="price-tag">${money(item.price)}</span>
-            <a class="card-link" href="catalogue-item.html?type=${item.type}&id=${item.id}">View service</a>
+            <span class="price-tag">From ${money(item.price)}</span>
+            <a class="card-link" href="contact.html?service=${encodeURIComponent(item.id)}">${item.type === 'package' ? 'Enquire about package' : 'Request this service'}</a>
           </div>
+          <a class="card-detail-link" href="catalogue-item.html?type=${item.type}&id=${encodeURIComponent(item.id)}">Full details and prep</a>
         </div>
       </article>
     `).join('');
@@ -463,8 +482,9 @@ function renderCatalogueCards() {
           <p>${item.shortDescription}</p>
           <div class="price-row">
             <span class="price-tag">${money(item.price)}</span>
-            <a class="card-link" href="catalogue-item.html?type=product&id=${item.id}">View item</a>
+            <a class="card-link" href="${whatsappLink(`Hi Lumi, I\u2019d like to enquire about ${item.name}. Is it available, and can you confirm the current price?`)}" target="_blank" rel="noreferrer">Enquire on WhatsApp</a>
           </div>
+          <a class="card-detail-link" href="catalogue-item.html?type=product&id=${encodeURIComponent(item.id)}">Product details</a>
           <div class="availability"><span class="status-dot"></span>${item.availability}</div>
         </div>
       </article>
@@ -545,7 +565,7 @@ function renderDetailPage() {
           <li><span>${type === 'product' ? 'Availability' : 'Includes'}</span><strong>${type === 'product' ? item.availability : list[0] || 'Tailored finish'}</strong></li>
         </ul>
         <div class="detail-actions">
-          <a class="wa-button" href="${whatsappLink(locationText)}" target="_blank" rel="noreferrer">${type === 'product' ? 'Enquire about this product' : 'Book this service'}</a>
+          <a class="wa-button" href="${type === 'product' ? whatsappLink(locationText) : `contact.html?service=${encodeURIComponent(item.id)}`}" ${type === 'product' ? 'target="_blank" rel="noreferrer"' : ''}>${type === 'product' ? 'Enquire about this product' : 'Request this service'}</a>
           <a class="btn-secondary" href="${type === 'product' ? 'products.html' : 'services.html'}">Browse more</a>
         </div>
       </aside>
@@ -606,7 +626,7 @@ function renderDetailPage() {
       <div class="content-box">
         <h3>Ready to book?</h3>
         <p>Use WhatsApp to send a quick enquiry and we’ll help you decide what fits your look, timing and occasion.</p>
-        <a class="wa-button" href="${whatsappLink(locationText)}" target="_blank" rel="noreferrer">Send a WhatsApp enquiry</a>
+        <a class="wa-button" href="${type === 'product' ? whatsappLink(locationText) : `contact.html?service=${encodeURIComponent(item.id)}`}" ${type === 'product' ? 'target="_blank" rel="noreferrer"' : ''}>${type === 'product' ? 'Enquire on WhatsApp' : 'Request availability'}</a>
       </div>
     </div>
   `;
@@ -616,31 +636,55 @@ function setupContactForm() {
   const form = document.querySelector('#booking-form');
   if (!form) return;
 
+  const serviceSelect = form.querySelector('[name="service"]');
+  const groupedServices = ['Hair', 'Makeup', 'Packages'];
+  serviceSelect.innerHTML = '<option value="">Choose a service or package</option>' + groupedServices.map((category) => {
+    const items = services.filter((item) => category === 'Packages' ? item.type === 'package' : item.category === category && item.type === 'service');
+    if (!items.length) return '';
+    return `<optgroup label="${category}">${items.map((item) => `<option value="${item.id}">${item.name} — from ${money(item.price)}</option>`).join('')}</optgroup>`;
+  }).join('');
+
+  const requestedService = new URLSearchParams(window.location.search).get('service');
+  if (requestedService && getServiceById(requestedService)) serviceSelect.value = requestedService;
+
+  const dateInput = form.querySelector('[name="date"]');
+  const today = new Date();
+  dateInput.min = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
+
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(form);
-    const name = formData.get('name') || 'There';
-    const whatsapp = formData.get('whatsapp') || 'Not provided';
-    const service = formData.get('service') || 'general enquiry';
-    const date = formData.get('date') || 'flexible';
-    const notes = formData.get('message') || 'Please let me know the available dates and times.';
+    const name = formData.get('name').trim();
+    const service = getServiceById(formData.get('service'));
+    const date = formData.get('date');
+    const time = formData.get('time');
+    const whatsapp = formData.get('whatsapp').trim();
+    const notes = formData.get('message').trim();
 
     const enquiries = window.LumiStore.getEnquiries();
     enquiries.unshift({
       id: `enquiry-${Date.now()}`,
       name,
       whatsapp,
-      service,
+      service: service.name,
       date,
+      time,
       message: notes,
       status: 'New',
       createdAt: new Date().toISOString()
     });
     window.LumiStore.saveEnquiries(enquiries);
 
-    const message = `Hi Lumi, my name is ${name}. I’d like to enquire about ${service}. My preferred date is ${date}. WhatsApp number: ${whatsapp}. Message: ${notes}`;
+    const message = [
+      'Hi Lumi, I would like to request a booking and check availability.',
+      `Service: ${service.name}`,
+      `Preferred date: ${date}`,
+      `Preferred time: ${time}`,
+      `Name: ${name}`,
+      whatsapp ? `My WhatsApp number: ${whatsapp}` : '',
+      notes ? `Notes: ${notes}` : ''
+    ].filter(Boolean).join('\n');
     window.open(whatsappLink(message), '_blank', 'noopener,noreferrer');
-    form.reset();
   });
 }
 
@@ -730,7 +774,7 @@ function setupHeroCarousel() {
 
   const states = [
     { name: 'Soft Glam', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80', alt: 'Woman with polished soft glam beauty finish in Lagos studio' },
-    { name: 'Bridal', image: 'https://images.unsplash.com/photo-1521590832167-7e9d8a60f8b9?auto=format&fit=crop&w=1200&q=80', alt: 'Bridal beauty look with styled hair and luminous makeup' },
+    { name: 'Bridal', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80', alt: 'Bridal beauty look with styled hair and luminous makeup' },
     { name: 'French Girl', image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=80', alt: 'Natural polished makeup look at Lumi Beauty Studio' },
     { name: 'Y2K', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=80', alt: 'Glossy contemporary beauty look with styled hair' },
     { name: 'Coquette', image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80', alt: 'Soft feminine beauty look with natural texture' },
