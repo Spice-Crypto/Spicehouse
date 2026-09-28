@@ -142,9 +142,12 @@
               </select>
             </label>
           </div>
-          <p class="catalogue-count" id="catalogue-count" aria-live="polite"></p>
+          <div class="catalogue-status">
+            <p class="catalogue-count" id="catalogue-count" aria-live="polite"></p>
+            <button class="catalogue-reset" id="catalogue-reset" type="button">Reset filters</button>
+          </div>
           <div class="catalogue" id="catalogue" aria-live="polite"></div>
-          <p class="catalogue-empty" id="catalogue-empty" hidden>No pieces match those filters. Try another search or size.</p>
+          <p class="catalogue-empty" id="catalogue-empty" hidden>No pieces match. Try adjusting your search or filters.</p>
         </div>
       </section>
 

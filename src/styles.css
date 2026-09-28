@@ -577,6 +577,30 @@ h3 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
   left: 0;
   color: var(--tomato);
 }
+.package-card .text-link--inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--tomato-deep);
+  color: var(--tomato-deep);
+  font-size: 0.68rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.package-card .text-link--inline:hover {
+  background: var(--tomato-deep);
+  color: var(--paper);
+}
+.package-card--featured .text-link--inline {
+  border-color: var(--acid);
+  color: var(--acid);
+}
+.package-card--featured .text-link--inline:hover {
+  background: var(--acid);
+  color: var(--ink);
+}
 .package-card .button {
   margin-top: auto;
 }

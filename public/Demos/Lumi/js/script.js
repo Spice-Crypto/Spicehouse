@@ -364,6 +364,13 @@ function whatsappLink(message) {
   return `https://wa.me/2348000000000?text=${encodeURIComponent(message)}`;
 }
 
+function updateGeneralWhatsAppLinks() {
+  const message = "Hi Lumi Beauty Studio, I'd like to enquire about a service.";
+  document.querySelectorAll('a[href="https://wa.me/2348000000000"]').forEach((link) => {
+    link.href = whatsappLink(message);
+  });
+}
+
 function getServiceById(id) {
   return services.find((item) => item.id === id);
 }
@@ -421,7 +428,7 @@ function renderHome() {
           <p>${product.shortDescription}</p>
           <div class="price-row">
             <span class="price-tag">${money(product.price)}</span>
-            <a class="card-link" href="${whatsappLink(`Hi Lumi, I\u2019d like to enquire about ${product.name}. Is it available, and can you confirm the current price?`)}" target="_blank" rel="noreferrer">Enquire</a>
+            <a class="card-link" href="${whatsappLink(`Hi Lumi Beauty Studio, I'd like to enquire about ${product.name} (${money(product.price)}). Is it currently available?`)}" target="_blank" rel="noreferrer">Enquire</a>
           </div>
           <a class="card-detail-link" href="catalogue-item.html?type=product&id=${encodeURIComponent(product.id)}">Product details</a>
         </div>
@@ -482,7 +489,7 @@ function renderCatalogueCards() {
           <p>${item.shortDescription}</p>
           <div class="price-row">
             <span class="price-tag">${money(item.price)}</span>
-            <a class="card-link" href="${whatsappLink(`Hi Lumi, I\u2019d like to enquire about ${item.name}. Is it available, and can you confirm the current price?`)}" target="_blank" rel="noreferrer">Enquire on WhatsApp</a>
+            <a class="card-link" href="${whatsappLink(`Hi Lumi Beauty Studio, I'd like to enquire about ${item.name} (${money(item.price)}). Is it currently available?`)}" target="_blank" rel="noreferrer">Enquire on WhatsApp</a>
           </div>
           <a class="card-detail-link" href="catalogue-item.html?type=product&id=${encodeURIComponent(item.id)}">Product details</a>
           <div class="availability"><span class="status-dot"></span>${item.availability}</div>
@@ -538,9 +545,10 @@ function renderDetailPage() {
     .slice(0, 3);
 
   const list = Array.isArray(item.includes) ? item.includes : item.details || [];
+  const enquirySubject = item.type === 'package' ? 'package' : 'service';
   const locationText = type === 'product'
-    ? `"Hi Lumi, I'd like to enquire about the ${item.name}. Is it currently available?"`
-    : `"Hi Lumi, I'd like to book a ${item.name}. Please let me know the available dates and times."`;
+    ? `Hi Lumi Beauty Studio, I'd like to enquire about ${item.name} (${money(item.price)}). Is it currently available?`
+    : `Hi Lumi Beauty Studio, I'd like to enquire about the ${item.name} ${enquirySubject}.`;
 
   const faqMarkup = (item.faq || []).map((entry) => `
     <details class="faq-item">
@@ -637,53 +645,173 @@ function setupContactForm() {
   if (!form) return;
 
   const serviceSelect = form.querySelector('[name="service"]');
+  const steps = [...form.querySelectorAll('[data-booking-step]')];
+  const progressItems = [...form.querySelectorAll('[data-booking-progress]')];
+  const backButton = form.querySelector('[data-booking-back]');
+  const nextButton = form.querySelector('[data-booking-next]');
+  const sendButton = form.querySelector('[data-booking-send]');
+  const serviceDetail = form.querySelector('[data-booking-service-detail]');
+  const review = form.querySelector('[data-booking-review]');
+  const quickEnquiryLink = form.closest('.contact-grid')?.querySelector('.info-stack .wa-button');
+  let currentStep = 1;
   const groupedServices = ['Hair', 'Makeup', 'Packages'];
   serviceSelect.innerHTML = '<option value="">Choose a service or package</option>' + groupedServices.map((category) => {
     const items = services.filter((item) => category === 'Packages' ? item.type === 'package' : item.category === category && item.type === 'service');
     if (!items.length) return '';
-    return `<optgroup label="${category}">${items.map((item) => `<option value="${item.id}">${item.name} — from ${money(item.price)}</option>`).join('')}</optgroup>`;
+    return `<optgroup label="${category}">${items.map((item) => `<option value="${item.id}">${item.name}${item.price != null ? ` — from ${money(item.price)}` : ''}</option>`).join('')}</optgroup>`;
   }).join('');
 
   const requestedService = new URLSearchParams(window.location.search).get('service');
   if (requestedService && getServiceById(requestedService)) serviceSelect.value = requestedService;
 
+  const updateQuickEnquiryLink = () => {
+    if (!quickEnquiryLink) return;
+    const service = getServiceById(serviceSelect.value);
+    const message = service
+      ? `Hi Lumi Beauty Studio, I'd like to enquire about the ${service.name} ${service.type === 'package' ? 'package' : 'service'}.`
+      : "Hi Lumi Beauty Studio, I'd like to enquire about a service.";
+    quickEnquiryLink.href = whatsappLink(message);
+  };
+
   const dateInput = form.querySelector('[name="date"]');
   const today = new Date();
   dateInput.min = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const formData = new FormData(form);
-    const name = formData.get('name').trim();
-    const service = getServiceById(formData.get('service'));
-    const date = formData.get('date');
-    const time = formData.get('time');
-    const whatsapp = formData.get('whatsapp').trim();
-    const notes = formData.get('message').trim();
+  const dateLabel = (value) => new Intl.DateTimeFormat('en-GB', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long'
+  }).format(new Date(`${value}T12:00:00`));
 
-    const enquiries = window.LumiStore.getEnquiries();
-    enquiries.unshift({
-      id: `enquiry-${Date.now()}`,
-      name,
-      whatsapp,
-      service: service.name,
-      date,
-      time,
-      message: notes,
-      status: 'New',
-      createdAt: new Date().toISOString()
+  const serviceInfo = () => {
+    const service = getServiceById(serviceSelect.value);
+    serviceDetail.replaceChildren();
+    if (!service) {
+      const prompt = document.createElement('span');
+      prompt.textContent = 'Select a service to see its details.';
+      serviceDetail.append(prompt);
+      return;
+    }
+
+    const title = document.createElement('strong');
+    title.textContent = service.name;
+    const description = document.createElement('p');
+    description.textContent = service.shortDescription || service.description || '';
+    const details = [
+      service.price != null ? `From ${money(service.price)} · demo starting price` : '',
+      service.duration || ''
+    ].filter(Boolean).join('  /  ');
+    serviceDetail.append(title, description);
+    if (details) {
+      const meta = document.createElement('span');
+      meta.textContent = details;
+      serviceDetail.append(meta);
+    }
+  };
+
+  const renderReview = () => {
+    const values = new FormData(form);
+    const service = getServiceById(values.get('service'));
+    const date = values.get('date');
+    const timeSelect = form.querySelector('[name="time"]');
+    const fields = [
+      ['Service', service?.name || ''],
+      ['Preferred date', date ? dateLabel(date) : ''],
+      ['Preferred time', timeSelect.selectedOptions[0]?.textContent || ''],
+      ['Name', values.get('name').trim()],
+      ['Phone / WhatsApp', values.get('whatsapp').trim()],
+      ['Email', values.get('email').trim() || 'Not provided'],
+      ['Notes', values.get('message').trim() || 'None']
+    ];
+
+    review.replaceChildren();
+    fields.forEach(([label, value]) => {
+      const term = document.createElement('dt');
+      const description = document.createElement('dd');
+      term.textContent = label;
+      description.textContent = value;
+      review.append(term, description);
     });
-    window.LumiStore.saveEnquiries(enquiries);
 
+    const email = values.get('email').trim();
+    const notes = values.get('message').trim();
     const message = [
-      'Hi Lumi, I would like to request a booking and check availability.',
+      "Hi Lumi Beauty Studio, I'd like to request an appointment.",
+      '',
       `Service: ${service.name}`,
-      `Preferred date: ${date}`,
-      `Preferred time: ${time}`,
-      `Name: ${name}`,
-      whatsapp ? `My WhatsApp number: ${whatsapp}` : '',
-      notes ? `Notes: ${notes}` : ''
-    ].filter(Boolean).join('\n');
+      `Preferred date: ${dateLabel(date)}`,
+      `Preferred time: ${timeSelect.selectedOptions[0]?.textContent || ''}`,
+      `Name: ${values.get('name').trim()}`,
+      `Phone / WhatsApp: ${values.get('whatsapp').trim()}`,
+      email ? `Email: ${email}` : '',
+      notes ? `Notes: ${notes}` : '',
+      '',
+      'Could you please confirm availability?'
+    ].filter((line) => line !== '').join('\n');
+    sendButton.href = whatsappLink(message);
+  };
+
+  const showStep = (stepNumber) => {
+    currentStep = stepNumber;
+    steps.forEach((step) => {
+      step.hidden = Number(step.dataset.bookingStep) !== currentStep;
+    });
+    progressItems.forEach((item) => {
+      const itemStep = Number(item.dataset.bookingProgress);
+      item.classList.toggle('is-current', itemStep === currentStep);
+      item.classList.toggle('is-complete', itemStep < currentStep);
+      if (itemStep === currentStep) item.setAttribute('aria-current', 'step');
+      else item.removeAttribute('aria-current');
+    });
+    backButton.hidden = currentStep === 1;
+    nextButton.hidden = currentStep === steps.length;
+    sendButton.hidden = currentStep !== steps.length;
+  };
+
+  serviceSelect.addEventListener('change', () => {
+    serviceInfo();
+    updateQuickEnquiryLink();
+  });
+  serviceInfo();
+  updateQuickEnquiryLink();
+  showStep(currentStep);
+
+  nextButton.addEventListener('click', () => {
+    const activeStep = steps[currentStep - 1];
+    const invalidField = [...activeStep.querySelectorAll('input, select, textarea')]
+      .find((field) => field.required && !field.checkValidity());
+    if (invalidField) {
+      invalidField.reportValidity();
+      return;
+    }
+    if (currentStep === 3) renderReview();
+    showStep(Math.min(currentStep + 1, steps.length));
+  });
+
+  backButton.addEventListener('click', () => showStep(Math.max(currentStep - 1, 1)));
+
+  form.addEventListener('submit', (event) => event.preventDefault());
+  sendButton.addEventListener('click', () => {
+    if (!form.reportValidity()) return;
+
+    const values = new FormData(form);
+    const service = getServiceById(values.get('service'));
+    if (!service) return;
+    const email = values.get('email').trim();
+    const notes = values.get('message').trim();
+    const message = [
+      "Hi Lumi Beauty Studio, I'd like to request an appointment.",
+      '',
+      `Service: ${service.name}`,
+      `Preferred date: ${dateLabel(values.get('date'))}`,
+      `Preferred time: ${form.querySelector('[name="time"]').selectedOptions[0].textContent}`,
+      `Name: ${values.get('name').trim()}`,
+      `Phone / WhatsApp: ${values.get('whatsapp').trim()}`,
+      email ? `Email: ${email}` : '',
+      notes ? `Notes: ${notes}` : '',
+      '',
+      'Could you please confirm availability?'
+    ].filter((line) => line !== '').join('\n');
     window.open(whatsappLink(message), '_blank', 'noopener,noreferrer');
   });
 }
@@ -784,29 +912,17 @@ function setupHeroCarousel() {
   let timer;
   let paused = false;
 
-  const transition = () => {
-    if (paused) return;
-    index = (index + 1) % states.length;
-    const next = states[index];
-    carousel.classList.add('is-transitioning');
-    look.parentElement.classList.add('is-transitioning');
-
-    window.setTimeout(() => {
-      image.src = next.image;
-      image.alt = next.alt;
-      look.textContent = next.name;
-      carousel.classList.remove('is-transitioning');
-      look.parentElement.classList.remove('is-transitioning');
-    }, 320);
-  };
-
   const start = () => {
     window.clearInterval(timer);
-    timer = window.setInterval(transition, 5000);
+    timer = window.setInterval(() => {
+      if (paused) return;
+      index = (index + 1) % states.length;
+      image.src = states[index].image;
+      image.alt = states[index].alt;
+      look.textContent = states[index].name;
+    }, 5000);
   };
 
-  carousel.addEventListener('mouseenter', () => { paused = true; });
-  carousel.addEventListener('mouseleave', () => { paused = false; start(); });
   carousel.addEventListener('focusin', () => { paused = true; });
   carousel.addEventListener('focusout', () => { paused = false; start(); });
   start();
@@ -855,6 +971,7 @@ function setupScrollRail() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  updateGeneralWhatsAppLinks();
   renderHome();
   renderCatalogueCards();
   setupCatalogueFilters();

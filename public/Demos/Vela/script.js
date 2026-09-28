@@ -71,7 +71,13 @@ const products = [
 const formatPrice = (price) => `₦${price.toLocaleString('en-NG')}`;
 const whatsappUrl = (message) => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 const productMessage = (product, size = '') =>
-  `Hi Vela, I'm interested in the ${product.name}, ${formatPrice(product.price)}${size ? `, size ${size}` : ''}. Is it currently available${size ? ` in size ${size}` : ''}?`;
+  `Hi Vela, I'm interested in the ${product.name} (${formatPrice(product.price)})${size ? `, size ${size}` : ''}. Is it available, and how can I place an order?`;
+const sizingMessage = (product, size = '') =>
+  `Hi Vela, I'm interested in the ${product.name} (${formatPrice(product.price)})${size ? `, size ${size}` : ''}. Could you help me choose the right size?`;
+
+document.querySelectorAll('a[href="https://wa.me/2348000000000"]').forEach((link) => {
+  link.href = whatsappUrl("Hi Vela, I'd like to enquire about your collection.");
+});
 
 const catalogue = document.getElementById('catalogue');
 const searchInput = document.getElementById('product-search');
@@ -80,6 +86,7 @@ const sizeFilter = document.getElementById('size-filter');
 const priceFilter = document.getElementById('price-filter');
 const countOutput = document.getElementById('catalogue-count');
 const emptyOutput = document.getElementById('catalogue-empty');
+const resetButton = document.getElementById('catalogue-reset');
 
 const renderCatalogue = () => {
   if (!catalogue) return;
@@ -89,7 +96,8 @@ const renderCatalogue = () => {
   const size = sizeFilter.value;
   const priceRange = priceFilter.value;
   const visibleProducts = products.filter((product) => {
-    const matchesSearch = `${product.name} ${product.categoryLabel}`.toLowerCase().includes(search);
+    const searchableText = `${product.name} ${product.category} ${product.categoryLabel} ${product.description}`.toLowerCase();
+    const matchesSearch = searchableText.includes(search);
     const matchesCategory = category === 'all' || product.category === category;
     const matchesSize = size === 'all' || product.sizes.includes(size);
     const matchesPrice = priceRange === 'all'
@@ -128,6 +136,14 @@ if (catalogue) {
   [searchInput, categoryFilter, sizeFilter, priceFilter].forEach((control) => {
     control.addEventListener(control === searchInput ? 'input' : 'change', renderCatalogue);
   });
+  resetButton.addEventListener('click', () => {
+    searchInput.value = '';
+    categoryFilter.value = 'all';
+    sizeFilter.value = 'all';
+    priceFilter.value = 'all';
+    renderCatalogue();
+    searchInput.focus();
+  });
   renderCatalogue();
 }
 
@@ -153,7 +169,7 @@ if (productDetail) {
             <div>${product.sizes.map((size) => `<label><input type="radio" name="product-size" value="${size}" /><span>${size}</span></label>`).join('')}</div>
           </fieldset>
           <a class="btn btn-primary product-whatsapp" href="${whatsappUrl(productMessage(product))}" target="_blank" rel="noreferrer"><span>Ask about this piece</span><em>↗</em></a>
-          <a class="sizing-help" href="${whatsappUrl(`Hi Vela, I need sizing help with the ${product.name}. Could you advise me?`)}" target="_blank" rel="noreferrer">Need help choosing a size? Ask us on WhatsApp ↗</a>
+          <a class="sizing-help" href="${whatsappUrl(sizingMessage(product))}" target="_blank" rel="noreferrer">Need help choosing a size? Ask us on WhatsApp ↗</a>
           <div class="product-service-info">
             <section><h2>Delivery</h2><p>Nationwide delivery is available. Share your location on WhatsApp for a delivery estimate before ordering.</p></section>
             <section><h2>Showroom</h2><p>Wuse 2, Abuja. Message us to confirm details before visiting.</p><a href="index.html#info">Hours &amp; visit information →</a></section>
@@ -165,9 +181,11 @@ if (productDetail) {
     `;
 
     const enquiryLink = productDetail.querySelector('.product-whatsapp');
+    const sizingLink = productDetail.querySelector('.sizing-help');
     productDetail.querySelectorAll('input[name="product-size"]').forEach((input) => {
       input.addEventListener('change', () => {
         enquiryLink.href = whatsappUrl(productMessage(product, input.value));
+        sizingLink.href = whatsappUrl(sizingMessage(product, input.value));
       });
     });
   }

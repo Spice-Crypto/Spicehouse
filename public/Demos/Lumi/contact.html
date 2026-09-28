@@ -56,42 +56,87 @@
       <section class="section-sm">
         <div class="container contact-grid">
           <div class="contact-card">
-            <div class="eyebrow">Booking enquiry</div>
+            <div class="eyebrow">Booking request</div>
             <p style="margin-top: 0; margin-bottom: 18px; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--taupe);">Demo information for portfolio use only — fictional business details.</p>
             <h3>Request a booking.</h3>
-            <p>Share your preference and Lumi will confirm availability with you on WhatsApp.</p>
+            <p>Share your preferred service and time. Lumi will check availability with you on WhatsApp; no appointment is confirmed here.</p>
             <form id="booking-form">
-              <div class="form-grid">
-                <div class="field">
-                  <label for="name">Name</label>
-                  <input id="name" name="name" type="text" placeholder="Your name" required />
-                </div>
-                <div class="field">
-                  <label for="whatsapp">Your WhatsApp number <span>(optional)</span></label>
-                  <input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="+234 ..." />
-                </div>
+              <div class="booking-progress" aria-label="Booking request progress">
+                <span class="is-current" data-booking-progress="1">Service</span>
+                <span data-booking-progress="2">Date &amp; time</span>
+                <span data-booking-progress="3">Your details</span>
+                <span data-booking-progress="4">Review</span>
+              </div>
+
+              <section class="booking-step" data-booking-step="1" aria-labelledby="booking-step-service">
+                <div class="booking-step-heading"><span>01</span><h4 id="booking-step-service">Choose a service</h4></div>
                 <div class="field">
                   <label for="service">Service or package</label>
                   <select id="service" name="service" required>
                     <option value="">Choose a service or package</option>
                   </select>
                 </div>
-                <div class="field">
-                  <label for="date">Preferred date</label>
-                  <input id="date" name="date" type="date" required />
+                <div class="booking-service-detail" data-booking-service-detail aria-live="polite">
+                  <span>Select a service to see its details.</span>
                 </div>
-                <div class="field">
-                  <label for="time">Preferred time</label>
-                  <input id="time" name="time" type="time" min="09:00" max="18:00" required />
+              </section>
+
+              <section class="booking-step" data-booking-step="2" aria-labelledby="booking-step-time" hidden>
+                <div class="booking-step-heading"><span>02</span><h4 id="booking-step-time">Choose a preferred date &amp; time</h4></div>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="date">Preferred date</label>
+                    <input id="date" name="date" type="date" required />
+                  </div>
+                  <div class="field">
+                    <label for="time">Preferred time</label>
+                    <select id="time" name="time" required>
+                      <option value="">Choose a time</option>
+                      <option value="09:00">9:00 AM</option>
+                      <option value="10:30">10:30 AM</option>
+                      <option value="12:00">12:00 PM</option>
+                      <option value="13:30">1:30 PM</option>
+                      <option value="15:00">3:00 PM</option>
+                      <option value="16:30">4:30 PM</option>
+                      <option value="18:00">6:00 PM</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="field wide">
-                  <label for="message">Notes <span>(optional)</span></label>
-                  <textarea id="message" name="message" placeholder="Occasion, look references, or anything we should know."></textarea>
+                <p class="booking-guidance">These are preferred times to request, not confirmed or live availability.</p>
+              </section>
+
+              <section class="booking-step" data-booking-step="3" aria-labelledby="booking-step-details" hidden>
+                <div class="booking-step-heading"><span>03</span><h4 id="booking-step-details">Your details</h4></div>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
+                  </div>
+                  <div class="field">
+                    <label for="whatsapp">Phone / WhatsApp number</label>
+                    <input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="+234 ..." required />
+                  </div>
+                  <div class="field wide">
+                    <label for="email">Email <span>(optional)</span></label>
+                    <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+                  </div>
+                  <div class="field wide">
+                    <label for="message">Notes <span>(optional)</span></label>
+                    <textarea id="message" name="message" placeholder="Occasion, look references, or anything we should know."></textarea>
+                  </div>
                 </div>
-              </div>
-              <div class="booking-submit">
-                <button class="btn-primary" type="submit">Request availability on WhatsApp</button>
-                <p>Your request is not a confirmed booking. Lumi will check the date and time with you.</p>
+              </section>
+
+              <section class="booking-step" data-booking-step="4" aria-labelledby="booking-step-review" hidden>
+                <div class="booking-step-heading"><span>04</span><h4 id="booking-step-review">Review your request</h4></div>
+                <dl class="booking-review" data-booking-review></dl>
+                <p class="booking-guidance">This sends a request for Lumi to check availability. Your appointment is not confirmed until Lumi replies.</p>
+              </section>
+
+              <div class="booking-controls">
+                <button class="btn-secondary" type="button" data-booking-back hidden>Back</button>
+                <button class="btn-primary" type="button" data-booking-next>Continue</button>
+                <a class="btn-primary" href="#" data-booking-send target="_blank" rel="noopener noreferrer" hidden>Request booking via WhatsApp</a>
               </div>
             </form>
           </div>

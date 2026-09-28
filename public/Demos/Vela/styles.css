@@ -469,12 +469,35 @@ p {
   outline-offset: 2px;
 }
 
+.catalogue-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .catalogue-count {
   padding: 1rem 0 0.3rem;
   color: var(--soft);
   font-size: 0.74rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
+}
+
+.catalogue-reset {
+  border: 0;
+  padding: 0.3rem 0;
+  background: transparent;
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.catalogue-reset:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .catalogue-empty {
