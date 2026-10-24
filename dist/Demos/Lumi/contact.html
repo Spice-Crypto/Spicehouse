@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact & Book | Lumi Beauty Studio</title>
+    <meta name="description" content="Book an appointment or enquire with Lumi Beauty Studio in Lagos, Nigeria via WhatsApp or the demo contact form." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <a class="spicehouse-return" href="../../work.html">Back to SpiceHouse work <span aria-hidden="true">↗</span></a>
+    <header class="site-header">
+      <div class="container nav-shell">
+        <a href="index.html" class="brand-mark" aria-label="Lumi Beauty Studio home">
+          <strong>LUMI</strong>
+          <span>BEAUTY STUDIO</span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="services.html">Services</a>
+          <a href="hair.html">Hair</a>
+          <a href="makeup.html">Makeup</a>
+          <a href="packages.html">Packages</a>
+          <a href="products.html">Products</a>
+          <a href="about.html">About</a>
+        </nav>
+        <div class="header-actions">
+          <a href="contact.html" class="nav-cta">Book / Enquire</a>
+          <button class="mobile-menu-toggle" type="button" aria-label="Toggle menu">☰</button>
+        </div>
+        <nav class="mobile-nav" aria-label="Mobile navigation">
+          <a href="services.html">Services</a>
+          <a href="hair.html">Hair</a>
+          <a href="makeup.html">Makeup</a>
+          <a href="packages.html">Packages</a>
+          <a href="products.html">Products</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Book / Enquire</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container page-hero-inner">
+          <div>
+            <div class="eyebrow">Contact</div>
+            <h1 class="heading-serif">Ready when you are.</h1>
+          </div>
+          <p>Choose a service and send your preferred date and time. We’ll reply to check availability; this request does not confirm an appointment.</p>
+        </div>
+      </section>
+
+      <section class="section-sm">
+        <div class="container contact-grid">
+          <div class="contact-card">
+            <div class="eyebrow">Booking request</div>
+            <p style="margin-top: 0; margin-bottom: 18px; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--taupe);">Demo information for portfolio use only — fictional business details.</p>
+            <h3>Request a booking.</h3>
+            <p>Share your preferred service and time. Lumi will check availability with you on WhatsApp; no appointment is confirmed here.</p>
+            <form id="booking-form">
+              <div class="booking-progress" aria-label="Booking request progress">
+                <span class="is-current" data-booking-progress="1">Service</span>
+                <span data-booking-progress="2">Date &amp; time</span>
+                <span data-booking-progress="3">Your details</span>
+                <span data-booking-progress="4">Review</span>
+              </div>
+
+              <section class="booking-step" data-booking-step="1" aria-labelledby="booking-step-service">
+                <div class="booking-step-heading"><span>01</span><h4 id="booking-step-service">Choose a service</h4></div>
+                <div class="field">
+                  <label for="service">Service or package</label>
+                  <select id="service" name="service" required>
+                    <option value="">Choose a service or package</option>
+                  </select>
+                </div>
+                <div class="booking-service-detail" data-booking-service-detail aria-live="polite">
+                  <span>Select a service to see its details.</span>
+                </div>
+              </section>
+
+              <section class="booking-step" data-booking-step="2" aria-labelledby="booking-step-time" hidden>
+                <div class="booking-step-heading"><span>02</span><h4 id="booking-step-time">Choose a preferred date &amp; time</h4></div>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="date">Preferred date</label>
+                    <input id="date" name="date" type="date" required />
+                  </div>
+                  <div class="field">
+                    <label for="time">Preferred time</label>
+                    <select id="time" name="time" required>
+                      <option value="">Choose a time</option>
+                      <option value="09:00">9:00 AM</option>
+                      <option value="10:30">10:30 AM</option>
+                      <option value="12:00">12:00 PM</option>
+                      <option value="13:30">1:30 PM</option>
+                      <option value="15:00">3:00 PM</option>
+                      <option value="16:30">4:30 PM</option>
+                      <option value="18:00">6:00 PM</option>
+                    </select>
+                  </div>
+                </div>
+                <p class="booking-guidance">These are preferred times to request, not confirmed or live availability.</p>
+              </section>
+
+              <section class="booking-step" data-booking-step="3" aria-labelledby="booking-step-details" hidden>
+                <div class="booking-step-heading"><span>03</span><h4 id="booking-step-details">Your details</h4></div>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
+                  </div>
+                  <div class="field">
+                    <label for="whatsapp">Phone / WhatsApp number</label>
+                    <input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="+234 ..." required />
+                  </div>
+                  <div class="field wide">
+                    <label for="email">Email <span>(optional)</span></label>
+                    <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+                  </div>
+                  <div class="field wide">
+                    <label for="message">Notes <span>(optional)</span></label>
+                    <textarea id="message" name="message" placeholder="Occasion, look references, or anything we should know."></textarea>
+                  </div>
+                </div>
+              </section>
+
+              <section class="booking-step" data-booking-step="4" aria-labelledby="booking-step-review" hidden>
+                <div class="booking-step-heading"><span>04</span><h4 id="booking-step-review">Review your request</h4></div>
+                <dl class="booking-review" data-booking-review></dl>
+                <p class="booking-guidance">This sends a request for Lumi to check availability. Your appointment is not confirmed until Lumi replies.</p>
+              </section>
+
+              <div class="booking-controls">
+                <button class="btn-secondary" type="button" data-booking-back hidden>Back</button>
+                <button class="btn-primary" type="button" data-booking-next>Continue</button>
+                <a class="btn-primary" href="#" data-booking-send target="_blank" rel="noopener noreferrer" hidden>Request booking via WhatsApp</a>
+              </div>
+            </form>
+          </div>
+
+          <div class="info-stack" style="display: grid; gap: 24px;">
+            <div class="info-card">
+              <div class="kicker">Chat with Lumi</div>
+              <h3>WhatsApp</h3>
+              <p>For quick questions and appointment requests, WhatsApp is the easiest next step.</p>
+              <a class="wa-button" href="https://wa.me/2348000000000?text=Hi%20Lumi%2C%20I%20would%20like%20to%20enquire%20about%20a%20service.%20Please%20share%20the%20available%20dates%20and%20times." target="_blank" rel="noreferrer">Chat with Lumi on WhatsApp</a>
+            </div>
+
+            <div class="info-card">
+              <div class="kicker">Visit</div>
+              <h3>Studio</h3>
+              <ul class="contact-list">
+                <li>
+                  <strong>Location</strong>
+                  Lagos, Nigeria. Confirm the studio location and appointment arrangements directly before visiting.
+                </li>
+                <li>
+                  <strong>Sample hours (fictional demo details)</strong>
+                  Monday – Saturday: 9:00 AM – 7:00 PM<br />Sunday: 12:00 PM – 5:00 PM
+                </li>
+                <li>
+                  <strong>Instagram</strong>
+                  <a href="https://instagram.com/lumibeautystudio" target="_blank" rel="noreferrer">@lumibeautystudio</a>
+                </li>
+                <li>
+                  <strong>Email</strong>
+                  <a href="mailto:hello@lumibeautystudio.com">hello@lumibeautystudio.com</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-sm policy-section">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">Before you book</div>
+              <h2 class="heading-serif">A few useful details.</h2>
+            </div>
+            <p class="section-text">Demo policies for portfolio use only. Replace the figures and wording with the studio’s confirmed terms before launch.</p>
+          </div>
+          <div class="story-grid policy-grid">
+            <article class="story-card"><span class="story-number">01 — DEPOSIT</span><h3>A 30% deposit holds your slot.</h3><p>The balance is due on the appointment day. Deposit amount and payment method should be confirmed in the reply.</p></article>
+            <article class="story-card"><span class="story-number">02 — ARRIVAL</span><h3>Please arrive 10 minutes early.</h3><p>A grace period of 15 minutes is built into this demo policy. Later arrival may shorten the service or require rescheduling.</p></article>
+            <article class="story-card"><span class="story-number">03 — CHANGES</span><h3>Give 24 hours’ notice.</h3><p>Rescheduling with at least 24 hours’ notice moves your deposit once. Late cancellations or no-shows may forfeit it.</p></article>
+            <article class="story-card"><span class="story-number">04 — PREP</span><h3>Come ready for your service.</h3><p>Hair appointments generally require clean, dry and detangled hair unless your service says otherwise. Makeup appointments need a clean, moisturised face.</p></article>
+            <article class="story-card"><span class="story-number">05 — AREA</span><h3>Lagos appointments.</h3><p>Exact location and any home or event appointments are not established in this portfolio demo. Confirm arrangements directly before making plans.</p></article>
+            <article class="story-card"><span class="story-number">06 — ACCESS</span><h3>Let us plan access with you.</h3><p>Parking and step-free access details are fictional in this demo. Tell us what you need before booking so the real studio can confirm suitable arrangements.</p></article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-shell">
+          <div class="footer-brand">
+            <a href="index.html" class="brand-mark" aria-label="Lumi home">
+              <strong>LUMI</strong>
+              <span>BEAUTY STUDIO</span>
+            </a>
+            <p>Beauty Studio<br />Lagos, Nigeria</p>
+          </div>
+          <div>
+            <h4>Navigation</h4>
+            <ul class="footer-menu">
+              <li><a href="services.html">Services</a></li>
+              <li><a href="hair.html">Hair</a></li>
+              <li><a href="makeup.html">Makeup</a></li>
+              <li><a href="packages.html">Packages</a></li>
+              <li><a href="products.html">Products</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Social</h4>
+            <ul class="footer-social">
+              <li><a href="https://instagram.com/lumibeautystudio" target="_blank" rel="noreferrer">Instagram</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Contact</h4>
+            <ul class="footer-contact">
+              <li><a href="https://wa.me/2348000000000" target="_blank" rel="noreferrer">WhatsApp</a></li>
+              <li><a href="mailto:hello@lumibeautystudio.com">Email</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© <span data-current-year></span> LUMI BEAUTY STUDIO</span>
+          <span>Beauty, made effortless.</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

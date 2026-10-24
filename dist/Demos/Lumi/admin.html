@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumi Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="admin-body">
+    <a class="spicehouse-return" href="../../work.html">Back to SpiceHouse work <span aria-hidden="true">↗</span></a>
+    <header class="admin-header">
+      <div class="container admin-header-inner">
+        <a href="index.html" class="brand-mark" aria-label="Back to Lumi website"><strong>LUMI</strong><span>ADMIN</span></a>
+        <a href="index.html" class="btn-secondary">View website</a>
+      </div>
+    </header>
+
+    <main class="admin-login-shell container" data-admin-login>
+      <form class="admin-login-card" data-login-form>
+        <div class="eyebrow">Studio access</div>
+        <h1 class="heading-serif">Welcome back.</h1>
+        <p>Sign in to manage Lumi's catalogue and booking enquiries.</p>
+        <label>Username<input name="username" autocomplete="username" required /></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+        <button class="btn-primary" type="submit">Sign in</button>
+        <p class="admin-login-error" data-login-error role="alert"></p>
+        <p class="admin-note">Demo protection only. Credentials: <strong>admin</strong> / <strong>password</strong></p>
+      </form>
+    </main>
+
+    <main class="admin-shell container is-hidden" data-admin-app>
+      <div class="admin-intro">
+        <div>
+          <div class="eyebrow">Local dashboard</div>
+          <h1 class="heading-serif">Lumi, behind the scenes.</h1>
+          <p>Manage the catalogue and keep track of booking enquiries on this device.</p>
+        </div>
+        <div class="admin-intro-actions"><button class="btn-secondary" type="button" data-reset-data>Reset demo data</button><button class="btn-secondary" type="button" data-logout>Log out</button></div>
+      </div>
+
+      <div class="admin-stats" data-stats></div>
+
+      <nav class="admin-tabs" aria-label="Dashboard sections">
+        <button class="admin-tab is-active" type="button" data-tab="catalogue">Catalogue</button>
+        <button class="admin-tab" type="button" data-tab="enquiries">Enquiries</button>
+      </nav>
+
+      <section class="admin-panel is-active" data-panel="catalogue">
+        <div class="admin-panel-head">
+          <div>
+            <div class="eyebrow">Content</div>
+            <h2>Catalogue items</h2>
+          </div>
+          <button class="btn-primary" type="button" data-new-item>+ New item</button>
+        </div>
+        <div class="admin-catalogue-layout">
+          <div class="admin-list" data-item-list></div>
+          <form class="admin-editor" data-item-form>
+            <div class="eyebrow" data-editor-label>Edit item</div>
+            <h3 data-editor-title>Select an item</h3>
+            <input type="hidden" name="id" />
+            <div class="admin-form-grid">
+              <label>Name<input name="name" required /></label>
+              <label>Type<select name="type"><option value="service">Service</option><option value="package">Package</option><option value="product">Product</option></select></label>
+              <label>Category<input name="category" required /></label>
+              <label>Price (NGN)<input name="price" type="number" min="0" required /></label>
+              <label class="admin-wide">Short description<textarea name="shortDescription" rows="2" required></textarea></label>
+              <label class="admin-wide">Image URL<input name="image" type="url" required /></label>
+              <label class="admin-wide">Availability / duration<input name="availability" placeholder="In stock or 1.5 hours" /></label>
+            </div>
+            <div class="admin-form-actions"><button class="btn-primary" type="submit">Save changes</button><button class="btn-secondary" type="button" data-delete-item>Delete</button></div>
+            <p class="admin-note" data-editor-note>Select an item from the list to edit it.</p>
+          </form>
+        </div>
+      </section>
+
+      <section class="admin-panel" data-panel="enquiries">
+        <div class="admin-panel-head">
+          <div><div class="eyebrow">Inbox</div><h2>Booking enquiries</h2></div>
+          <button class="btn-secondary" type="button" data-clear-enquiries>Clear enquiries</button>
+        </div>
+        <div class="admin-enquiries" data-enquiry-list></div>
+      </section>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script src="js/admin.js"></script>
+  </body>
+</html>

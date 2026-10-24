@@ -55,7 +55,7 @@ const products = {
     fit: 'Relaxed midi',
     colour: 'Oyster',
     image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=85',
-    alt: 'The Ayo Dress in cream',
+    alt: 'Editorial photograph of a model wearing contemporary womenswear',
     sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
   sade: {
@@ -66,7 +66,7 @@ const products = {
     fit: 'Two-piece set',
     colour: 'Soft beige',
     image: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1200&q=85',
-    alt: 'The Sade Set in soft beige',
+    alt: 'Editorial photograph of a model wearing contemporary womenswear',
     sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
   nia: {
@@ -77,7 +77,7 @@ const products = {
     fit: 'Sleeveless, asymmetric neckline',
     colour: 'Warm white',
     image: 'https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=1200&q=85',
-    alt: 'The Nia Top in warm white',
+    alt: 'Editorial photograph of a model wearing contemporary womenswear',
     sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
   zuri: {
@@ -88,7 +88,7 @@ const products = {
     fit: 'Flowing midi',
     colour: 'Chocolate brown',
     image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=85',
-    alt: 'The Zuri Skirt in chocolate brown',
+    alt: 'Editorial photograph of a model wearing contemporary womenswear',
     sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
   teni: {
@@ -99,7 +99,7 @@ const products = {
     fit: 'Relaxed shirt',
     colour: 'White',
     image: 'https://images.unsplash.com/photo-1605763240000-7e93b172d754?auto=format&fit=crop&w=1200&q=85',
-    alt: 'The Teni Shirt in white cotton',
+    alt: 'Editorial photograph of a model wearing contemporary womenswear',
     sizes: ['XS', 'S', 'M', 'L', 'XL']
   }
 };

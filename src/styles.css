@@ -459,7 +459,7 @@ h3 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
 
 .process-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 1.2rem;
 }
 .process-step {
@@ -482,6 +482,54 @@ h3 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
   font-size: 0.68rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
+}
+
+.care-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
+  gap: 2rem;
+}
+.care-offering,
+.care-followup {
+  border-top: 1px solid var(--line);
+  padding-top: 1.2rem;
+}
+.care-offering {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.8fr);
+  gap: 2rem;
+}
+.care-offering h3,
+.care-followup h3 {
+  font-size: clamp(1.25rem, 1.8vw, 1.7rem);
+  margin: 0 0 0.7rem;
+}
+.care-offering p,
+.care-followup p {
+  color: var(--muted);
+}
+.care-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.care-list li {
+  border-bottom: 1px solid var(--line);
+  padding: 0.55rem 0;
+}
+.care-list li:first-child {
+  border-top: 1px solid var(--line);
+}
+.care-followup {
+  border-left: 1px solid var(--line);
+  padding-left: 2rem;
+}
+.care-followup .care-availability {
+  margin: 1.4rem 0 0;
+  color: var(--ink);
+}
+.care-cta {
+  margin-top: 1rem;
 }
 
 .package-list {
@@ -572,7 +620,7 @@ h3 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
   color: var(--muted);
 }
 .package-card li::before {
-  content: '•';
+  content: '\2022';
   position: absolute;
   left: 0;
   color: var(--tomato);
@@ -691,6 +739,7 @@ h3 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
 .page-intro h1 {
   font-size: clamp(3.2rem, 6vw, 6rem);
   max-width: 8ch;
+  margin-inline: auto;
   line-height: 0.88;
   letter-spacing: -0.065em;
   font-weight: 500;
@@ -1064,6 +1113,14 @@ h3 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
   .demo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .care-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .care-followup {
+    border-left: 0;
+    padding-left: 0;
+  }
   .project-card--list a {
     grid-template-columns: 1fr;
   }
@@ -1202,6 +1259,10 @@ h3 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
   .info-grid,
   .site-footer__inner {
     grid-template-columns: 1fr;
+  }
+  .care-offering {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
   .site-footer__inner { display: block; }
   .footer-small { text-align: left; }
