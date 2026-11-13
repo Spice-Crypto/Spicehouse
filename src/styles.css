@@ -203,6 +203,29 @@ h3 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
   background: var(--ink);
   color: var(--paper);
 }
+.button-dark[href*="quote-form"],
+.package-card .button-light[href*="quote-form"] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.button-dark[href*="quote-form"]::after,
+.package-card .button-light[href*="quote-form"]::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.03) 42%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0.03) 58%, transparent 70%);
+  content: "";
+  pointer-events: none;
+  transform: translateX(-120%);
+  animation: quote-shimmer 9.5s ease-in-out infinite;
+}
+.package-card .button-light[href*="quote-form"]::after {
+  background: linear-gradient(110deg, transparent 22%, rgba(218, 93, 58, 0.08) 38%, rgba(218, 93, 58, 0.28) 50%, rgba(218, 93, 58, 0.08) 62%, transparent 78%);
+}
+@keyframes quote-shimmer {
+  0%, 16.6% { transform: translateX(-120%); }
+  42%, 100% { transform: translateX(120%); }
+}
 .button-dark:hover { background: var(--tomato-deep); }
 .button-light {
   background: transparent;
@@ -1025,6 +1048,7 @@ h3 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
 
 .project-hero { padding-top: clamp(3rem, 6vw, 6rem); }
 .project-hero__inner { display: grid; gap: 1rem; }
+body[data-service] .project-hero h1 { color: var(--tomato); }
 .project-hero__meta {
   display: flex;
   gap: 1rem;
