@@ -20,8 +20,10 @@ img { display: block; height: 100%; object-fit: cover; width: 100%; }
 button { color: inherit; font: inherit; }
 .sr-only { clip: rect(0, 0, 0, 0); height: 1px; overflow: hidden; position: absolute; width: 1px; }
 .page-width { margin-inline: auto; max-width: 1600px; padding-inline: var(--page-gutter); }
-.spicehouse-return { color: var(--acid); font-size: 8px; font-weight: 700; justify-self: end; text-transform: uppercase; }
+.spicehouse-return { color: var(--acid); display: inline-flex; font-size: 8px; font-weight: 700; justify-self: end; overflow: hidden; position: relative; text-transform: uppercase; }
 .spicehouse-return span { color: var(--acid); margin-left: 8px; }
+.spicehouse-return::after { animation: spicehouse-return-shimmer 5s ease-in-out infinite; background: linear-gradient(110deg, transparent 24%, rgba(255,255,255,.08) 40%, rgba(255,255,255,.45) 50%, rgba(255,255,255,.08) 60%, transparent 76%); content: ''; inset: 0; pointer-events: none; position: absolute; transform: translateX(-120%); }
+@keyframes spicehouse-return-shimmer { 0%, 12% { transform: translateX(-120%); } 42%, 100% { transform: translateX(120%); } }
 .announcement { align-items: center; background: var(--blue); color: white; display: flex; font-size: 9px; font-weight: 600; justify-content: space-between; letter-spacing: .11em; min-height: 30px; padding: 0 var(--page-gutter); text-transform: uppercase; }
 .announcement span:last-child { color: var(--acid); }
 .site-header { align-items: center; background: var(--paper); border-bottom: 1px solid var(--ink); display: flex; height: 76px; justify-content: space-between; padding: 0 var(--page-gutter); position: sticky; top: 0; transition: box-shadow .2s ease; z-index: 10; }
